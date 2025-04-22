@@ -6,7 +6,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 from PIL import Image
-import spacy
 
 # Load the dataset
 data = pd.read_csv('amazon_product.csv')
