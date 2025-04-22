@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 from PIL import Image
+import spacy
 
 # Load the dataset
 data = pd.read_csv('amazon_product.csv')
@@ -20,9 +21,11 @@ nltk.download('punkt')
 # Define tokenizer and stemmer
 stemmer = SnowballStemmer('english')
 def tokenize_and_stem(text):
-    tokens = nltk.word_tokenize(text.lower())
-    stems = [stemmer.stem(t) for t in tokens]
+    # Use preserve_line=True to avoid sentence tokenization
+    tokens = nltk.word_tokenize(text.lower(), preserve_line=True)
+    stems = [stemmer.stem(token) for token in tokens if token.isalpha()]
     return stems
+
 
 # Create stemmed tokens column
 data['stemmed_tokens'] = data.apply(lambda row: tokenize_and_stem(row['Title'] + ' ' + row['Description']), axis=1)
